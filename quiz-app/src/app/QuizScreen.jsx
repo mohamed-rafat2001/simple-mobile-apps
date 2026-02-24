@@ -1,13 +1,18 @@
 import {View,StyleSheet,Text, Pressable} from 'react-native';
 import QuestionCard from '../components/QuestionCard';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { useState } from 'react';
 import { useQuizContext } from '../providers/QuizProvider';
 
 export default function QuizScreen() {
 
    
-    const {questionsList,currentQuestion,handleNextButton,handlePrevButton} = useQuizContext();
+    const {
+        questionsList,
+        currentQuestion,
+        handleNextButton,
+        handlePrevButton,
+        score
+    } = useQuizContext();
    
     return (
         <SafeAreaProvider>
@@ -19,7 +24,9 @@ export default function QuizScreen() {
                     <View >
                         <Text style={styles.headerText}>Question {currentQuestion + 1}/{questionsList.length}</Text>
                     </View>
-
+                    <View>
+                        <Text style={styles.scoreText}>Score: {score}</Text>
+                    </View>
                     <View>
                         {/* Question Card */}
                         <QuestionCard question={questionsList[currentQuestion]} id={currentQuestion + 1} />
@@ -27,16 +34,33 @@ export default function QuizScreen() {
                     </View>
 
                      {/* Footer */}
-                    <Pressable style={styles.buttonContainer}
-                        onPress={handleNextButton}>
-                        <Text style={styles.buttonText} >Next</Text>
-                        <Text style={[{right:20}, styles.buttonIcon]} >{'----->'}</Text>
-                    </Pressable>
-                     <Pressable style={styles.buttonContainer}
-                        onPress={handlePrevButton}>
-                        <Text style={styles.buttonText} >Prev</Text>
-                        <Text style={[{left:20}, styles.buttonIcon]} >{'<-----'}</Text>
-                    </Pressable>
+                    {
+                        currentQuestion < questionsList.length - 1 && (
+                            <Pressable style={styles.buttonContainer}
+                                onPress={handleNextButton}>
+                                <Text style={styles.buttonText} >Next</Text>
+                                <Text style={[{right:20}, styles.buttonIcon]} >{'----->'}</Text>
+                            </Pressable>
+                        )
+                    }
+                    {
+                        currentQuestion > 0 && (
+                            <Pressable style={styles.buttonContainer}
+                                onPress={handlePrevButton}>
+                                <Text style={styles.buttonText} >Prev</Text>
+                                <Text style={[{left:20}, styles.buttonIcon]} >{'<-----'}</Text>
+                            </Pressable>
+                        )
+                    }
+                    {
+                        currentQuestion === questionsList.length - 1 && (
+                            <Pressable style={styles.buttonContainer}
+                                onPress={handleNextButton}>
+                                <Text style={styles.buttonText} >Submit</Text>
+                                <Text style={[{right:20}, styles.buttonIcon]} >{'----->'}</Text>
+                            </Pressable>
+                        )
+                    }
                 </View>
 
             </SafeAreaView>
@@ -85,6 +109,12 @@ const styles = StyleSheet.create({
         fontSize:20,
         color:"white",
         position:"absolute",
+    },
+    scoreText:{
+        fontSize:18,
+        color:"#005055",
+        fontWeight:"500",
+        textAlign:"center"
     }
 
 })

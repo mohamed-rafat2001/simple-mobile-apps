@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
  const questionsList = [{
         id:1,
         question: "What is the capital of France?",
@@ -46,20 +46,34 @@ export default function QuizProvider({children}){
 
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [selectedAnswer, setSelectedAnswer] = useState(null);
+    const [score,setScore] = useState(0)
+    const isCorrect = selectedAnswer === questionsList[currentQuestion].answer;
+    
+    
+    
     const handleNextButton = ()=>{
-            currentQuestion < questionsList.length - 1 &&
-                setCurrentQuestion(currentQuestion + 1)
+        if (currentQuestion  < questionsList.length   && isCorrect){
+            setScore(score + 1)
+
+        }
+        currentQuestion <  questionsList.length - 1 &&
+            setCurrentQuestion(currentQuestion + 1)
             
         }
     
     const handlePrevButton = ()=>{
             currentQuestion > 0 &&
                 setCurrentQuestion(currentQuestion - 1)
+            score > 0 && setScore(score - 1)
             
         }
+    // Reset selected answer when question ID changes
+    useEffect(() => {
+        setSelectedAnswer(null);
+    }, [currentQuestion]);
 
     return(
-        <QuizContext.Provider value={{questionsList,currentQuestion,handleNextButton,handlePrevButton,selectedAnswer,setSelectedAnswer}}>
+        <QuizContext.Provider value={{questionsList,currentQuestion,handleNextButton,handlePrevButton,selectedAnswer,setSelectedAnswer,isCorrect,score}}>
             {children}
         </QuizContext.Provider>
     )

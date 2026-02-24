@@ -34,30 +34,21 @@ export default function QuizScreen() {
                     </View>
 
                      {/* Footer */}
-                    {
-                        currentQuestion < questionsList.length - 1 && (
-                            <Pressable style={styles.buttonContainer}
-                                onPress={handleNextButton}>
-                                <Text style={styles.buttonText} >Next</Text>
-                                <Text style={[{right:20}, styles.buttonIcon]} >{'----->'}</Text>
-                            </Pressable>
-                        )
-                    }
+                    
+                         
+                    <Pressable style={styles.buttonContainer}
+                        onPress={handleNextButton}>
+                        <Text style={styles.buttonText} >{currentQuestion < questionsList.length - 1 ? "Next" : "Submit"}</Text>
+                        <Text style={[{right:20}, styles.buttonIcon]} >{'----->'}</Text>
+                    </Pressable>
+                        
+                    
                     {
                         currentQuestion > 0 && (
                             <Pressable style={styles.buttonContainer}
                                 onPress={handlePrevButton}>
                                 <Text style={styles.buttonText} >Prev</Text>
                                 <Text style={[{left:20}, styles.buttonIcon]} >{'<-----'}</Text>
-                            </Pressable>
-                        )
-                    }
-                    {
-                        currentQuestion === questionsList.length - 1 && (
-                            <Pressable style={styles.buttonContainer}
-                                onPress={handleNextButton}>
-                                <Text style={styles.buttonText} >Submit</Text>
-                                <Text style={[{right:20}, styles.buttonIcon]} >{'----->'}</Text>
                             </Pressable>
                         )
                     }

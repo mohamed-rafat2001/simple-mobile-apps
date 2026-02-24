@@ -56,8 +56,16 @@ export default function QuizProvider({children}){
             setScore(score + 1)
 
         }
-        currentQuestion <  questionsList.length - 1 &&
+        if (currentQuestion === questionsList.length - 1){
+            alert(`
+                Quiz Completed\n 
+                ${ score  < 3 ? "You Failed" : "You Passed"}\n
+                Your Score: ${score}`)
+        }
+        else{
+            currentQuestion <  questionsList.length - 1 &&
             setCurrentQuestion(currentQuestion + 1)
+        }
             
         }
     

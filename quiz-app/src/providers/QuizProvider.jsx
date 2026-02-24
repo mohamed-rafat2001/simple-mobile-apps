@@ -43,9 +43,9 @@ import { createContext, useContext, useState } from "react";
 export const QuizContext = createContext();
 
 export default function QuizProvider({children}){
-    
+
     const [currentQuestion, setCurrentQuestion] = useState(0);
-    
+    const [selectedAnswer, setSelectedAnswer] = useState(null);
     const handleNextButton = ()=>{
             currentQuestion < questionsList.length - 1 &&
                 setCurrentQuestion(currentQuestion + 1)
@@ -59,7 +59,7 @@ export default function QuizProvider({children}){
         }
 
     return(
-        <QuizContext.Provider value={{questionsList,currentQuestion,handleNextButton,handlePrevButton}}>
+        <QuizContext.Provider value={{questionsList,currentQuestion,handleNextButton,handlePrevButton,selectedAnswer,setSelectedAnswer}}>
             {children}
         </QuizContext.Provider>
     )

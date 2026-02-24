@@ -1,18 +1,30 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { Text, StyleSheet, Pressable } from 'react-native';
+import { useQuizContext } from '../providers/QuizProvider';
+import { useEffect } from 'react';
 
-export default function QuestionAnswer({ option, correct, selected }) {
+export default function QuestionAnswer({ option, correct }) {
+    const {selectedAnswer, setSelectedAnswer,currentQuestion} = useQuizContext();
     const isCorrect = option === correct;
-    const isSelected = selected;
+    const isSelected = option === selectedAnswer;
+    const handlePress = () => {
+            setSelectedAnswer(option)
+           
+        };
+
+    // Reset selected answer when question ID changes
+    useEffect(() => {
+        setSelectedAnswer(null);
+    }, [currentQuestion]);
 
     return (
-        <View style={[
+        <Pressable onPress={handlePress} style={[
             styles.optionContainer, 
             isSelected && isCorrect ? styles.correctSelected : 
             isSelected && !isCorrect ? styles.incorrectSelected : 
             {}
         ]}>
             <Text style={styles.optionText}>{option}</Text>
-        </View>
+        </Pressable>
     );
 }
 
